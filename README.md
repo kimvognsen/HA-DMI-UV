@@ -17,7 +17,4 @@ Provides:
 
 ## Installation
 
-1. Copy `packages/dmi_uv.yaml` to:
-
-```yaml
-/config/packages/dmi_uv.yaml
+Depend on your setup
