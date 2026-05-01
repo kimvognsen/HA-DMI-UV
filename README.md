@@ -26,19 +26,11 @@ It depends on an undocumented DMI endpoint and may break if DMI changes their AP
 1. Copy `packages/dmi_uv.yaml` to `/config/packages/`
 2. Enable packages in `configuration.yaml`:
 
+### Created with help from ChatGPT and tested in Home Assistant.
+
+
 ```yaml
 homeassistant:
   packages: !include_dir_named packages
 
-
-
-### Created with help from ChatGPT and tested in Home Assistant.
-
-## Features
-
-- Current UV index
-- Daily max UV
-- Hourly UV forecast graph
-- DMI-style color thresholds
-- Conditional display (only when relevant)
 
