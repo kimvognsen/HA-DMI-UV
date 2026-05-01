@@ -1,0 +1,79 @@
+type: conditional
+conditions:
+  - condition: numeric_state
+    entity: sensor.uv_dmi_dagens_maks
+    above: 2
+card:
+  type: custom:apexcharts-card
+  experimental:
+    color_threshold: true
+  apex_config:
+    chart:
+      height: 170px
+    legend:
+      show: false
+    yaxis:
+      min: 0
+      max: 8
+      tickAmount: 4
+    stroke:
+      width: 4
+      curve: smooth
+    markers:
+      size: 0
+  header:
+    show: true
+    title: UV-indeks i dag
+    show_states: true
+    colorize_states: true
+  graph_span: 24h
+  span:
+    start: day
+  now:
+    show: true
+    label: Nu
+  series:
+    - entity: sensor.uv_dmi_aktuel
+      name: Nuværende UV
+      type: line
+      color: "#f9c74f"
+      float_precision: 1
+      show:
+        in_chart: false
+        in_header: true
+        legend_value: false
+      data_generator: |
+        return [[new Date().getTime(), Number(entity.state)]];
+    - entity: sensor.uv_dmi_dagens_maks
+      name: Max UV i dag
+      type: line
+      color: "#f3722c"
+      float_precision: 1
+      show:
+        in_chart: false
+        in_header: true
+        legend_value: false
+      data_generator: |
+        return [[new Date().getTime(), Number(entity.state)]];
+    - entity: sensor.uv_dmi
+      name: UV forventet
+      type: line
+      float_precision: 1
+      show:
+        in_header: false
+        legend_value: false
+      color_threshold:
+        - value: 0
+          color: "#6dbb45"
+        - value: 3
+          color: "#ff7a00"
+        - value: 6
+          color: "#b00020"
+      data_generator: |
+        const rows = entity.attributes.List || [];
+        return rows.map(r => {
+          return [
+            new Date(r.Time.replace(' ', 'T')).getTime(),
+            Number(r.UVcloud)
+          ];
+        });

@@ -1,0 +1,38 @@
+rest:
+  - resource: https://www.dmi.dk/dmidk_byvejrWS/rest/json/nuv_clear_cloud
+    scan_interval: 3600
+    timeout: 15
+    sensor:
+      - name: UV DMI
+        unique_id: uv_dmi_v3
+        value_template: >-
+          {% if value_json is defined and value_json.List is defined %}
+            {{ value_json.List | length }}
+          {% else %}
+            0
+          {% endif %}
+        json_attributes:
+          - List
+
+template:
+  - sensor:
+      - name: "UV DMI Aktuel"
+        unique_id: uv_dmi_aktuel_v1
+        state_class: measurement
+        state: >-
+          {% set rows = state_attr('sensor.uv_dmi', 'List') | default([], true) %}
+          {% set now_hour = now().strftime('%Y-%m-%d %H:59') %}
+          {% set past = rows | selectattr('Time', '<=', now_hour) | list %}
+          {% if past | count > 0 %}
+            {{ past[-1].UVcloud | float(0) }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: "UV DMI Dagens Maks"
+        unique_id: uv_dmi_dagens_maks_v1
+        state_class: measurement
+        state: >-
+          {% set rows = state_attr('sensor.uv_dmi', 'List') | default([], true) %}
+          {% set vals = rows | map(attribute='UVcloud') | map('float', default=0) | list %}
+          {{ vals | max if vals | count > 0 else 0 }}
