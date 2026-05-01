@@ -2,7 +2,7 @@
 
 DMI UV forecast for Home Assistant using DMI's public UV endpoint.
 
-## This is not an official DMI integration.
+### This is not an official DMI integration.
 It depends on an undocumented DMI endpoint and may break if DMI changes their API.
 
 Provides:
@@ -22,4 +22,4 @@ Provides:
 
 Depend on your setup
 
-## Created with help from ChatGPT and tested in Home Assistant.
+### Created with help from ChatGPT and tested in Home Assistant.
