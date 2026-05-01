@@ -12,6 +12,8 @@ Provides:
 - DMI-style color thresholds
 - Optional conditional display when UV is relevant
 
+![UV Card](screenshots/uv-card.png)
+
 ## Requirements
 
 - Home Assistant
